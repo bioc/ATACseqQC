@@ -1,3 +1,7 @@
+# CHANGES IN VERSION 1.29.1
+
+* Fix the space inserted at the beginning after formatC for exportBamFile. 
+
 # CHANGES IN VERSION 1.27.4
 
 * Fix the refresh issue for IGVSnapshot.R 

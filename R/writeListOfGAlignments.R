@@ -61,8 +61,8 @@ fillColumn <- function(x, filler) {
         ifelse(is.na(x), filler, x)
     else x
 }
-formatInt <- function(x){
-    formatC(x, format = 'd')
+formatInt <- function(x){# handle format 1e5
+    sub('^\\s', '', formatC(x, format = 'd'))
 }
 
 exportBamFile <- function(object, con){
@@ -121,14 +121,14 @@ exportBamFile <- function(object, con){
       aln <- paste(fillColumn(names(thisObj), "*"),# QNAME String
                    formatInt(fillColumn(emd[["flag"]],
                                         ifelse(strand(thisObj) == "-",
-                                               "16", "0"))), # FLAG Int
+                                               16, 0))), # FLAG Int
                    seqnames(thisObj),# RNAME String
                    formatInt(start(thisObj)),# POS Int
-                   formatInt(fillColumn(emd[["mapq"]], "255")),# MAPQ Int
+                   formatInt(fillColumn(emd[["mapq"]], 255)),# MAPQ Int
                    cigar(thisObj), # CIGAR String
                    fillColumn(emd[["mrnm"]], "*"), # RNEXT String
-                   formatInt(fillColumn(emd[["mpos"]], "0")), # PNEXT Int
-                   formatInt(fillColumn(emd[["isize"]], "0")), # TLEN Int
+                   formatInt(fillColumn(emd[["mpos"]], 0)), # PNEXT Int
+                   formatInt(fillColumn(emd[["isize"]], 0)), # TLEN Int
                    if (is(thisObj, "GappedReads")) thisObj@qseq
                    else fillColumn(emd[["seq"]], "*"), # SEQ String
                    fillColumn(emd[["qual"]], "*"), # QUAL String
